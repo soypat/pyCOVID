@@ -42,10 +42,6 @@ class Country:
         return ax
 
 # date,location,new_cases,new_deaths,total_cases,total_deaths
-############################
-##  INSERT YOUR COUNTRY   ##
-############################
-myCountryName = 'Argentina'
 
 fullFilename = 'data.csv'
 dateFormat = '%Y-%m-%d'
@@ -62,5 +58,11 @@ for i in range(Nfull):
         CVDcountry[loc] = Country(loc)
     CVDcountry[loc].AddCases(date, CVD['total_cases'][i], CVD['total_deaths'][i])
 
-CVDcountry[myCountryName].PlotCases()
-CVDcountry[myCountryName].PlotCasesLog()
+    
+############################
+##        EXAMPLES        ##
+############################
+myCountryName = 'Argentina'
+
+CVDcountry['Argentina'].PlotCases()
+CVDcountry['United States'].PlotCasesLog()
