@@ -62,7 +62,5 @@ for i in range(Nfull):
 ############################
 ##        EXAMPLES        ##
 ############################
-myCountryName = 'Argentina'
-
 CVDcountry['Argentina'].PlotCases()
 CVDcountry['United States'].PlotCasesLog()
