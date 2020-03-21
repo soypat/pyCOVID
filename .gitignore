@@ -1,6 +1,9 @@
 # Repo sensitive files
-data.csv
-full_data.csv
+#data/data.csv
+#data/full_data.csv
+#data/countries.geojson
+data/*
+.idea/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

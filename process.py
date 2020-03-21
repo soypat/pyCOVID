@@ -1,66 +1,71 @@
 import pandas as pd
-import datetime
+import datetime as dt
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-import numpy as np
 
-class Country:
-    def __init__(self, name):
-        self.name = name
-        self.totalCases = []
-        self.date = []
-        self.totalDeaths = []
+class World:
+    def __init__(self, dateStart, dateEnd):
+        numdays = (dateEnd - dateStart).days + 1
+        self.date = [dateStart + dt.timedelta(days=x) for x in range(numdays)]
+        self.locCases = {}
+        self.locDeaths = {}
+        self.N = numdays
 
-    def AddCases(self, date, totalCases, totalDeaths):
-        self.totalCases.append(totalCases)
-        self.totalDeaths.append(totalDeaths)
-        self.date.append(date)
-
-    def PlotCases(self):
+    def PlotCases(self,loc):
         ax = self.newAxes()
-        ax.set_xlabel('Fecha [Y-m-d]')
         ax.set_ylabel('Casos Confirmados')
-        ax.set_title('Casos confirmados en ' + self.name)
-        plt.plot(self.date, self.totalCases)
+        ax.set_title('Casos confirmados en ' + loc)
+        plt.plot(self.date, self.locCases[loc])
         plt.xticks(rotation=45)
+        return plt.gcf()
 
-    def PlotCasesLog(self):
+    def PlotCasesLog(self, loc):
         ax = self.newAxes()
-        ax.set_xlabel('Fecha [Y-m-d]')
         ax.set_ylabel('Casos Confirmados')
-        ax.set_title('Casos confirmados en ' + self.name + ' (log scale)')
-        plt.semilogy(self.date, self.totalCases)
+        ax.set_title('Casos confirmados en ' + loc + ' (log scale)')
+        plt.semilogy(self.date, self.locCases[loc])
         plt.xticks(rotation=45)
+        return plt.gcf()
 
     def newAxes(self):
         plt.figure()
         ax = plt.gca()
-        formatter = mdates.DateFormatter("%Y-%m-%d")
+        formatter = mdates.DateFormatter("%m-%d")
         ax.xaxis.set_major_formatter(formatter)
-        locator = mdates.DayLocator()
-        ax.xaxis.set_major_locator(locator)
+        ax.set_xlabel('Fecha [m-d]')
         return ax
 
 # date,location,new_cases,new_deaths,total_cases,total_deaths
-
-fullFilename = 'data.csv'
+fullFilename = 'data/full_data.csv'
 dateFormat = '%Y-%m-%d'
+
 CVD = pd.read_csv(fullFilename)
-CVDcountry = {}
+CVD['date'] = [dt.datetime.strptime(x,dateFormat) for x in CVD['date']] # Convert string to datetime
+dateEnd, dateStart = max(CVD['date']), min(CVD['date'])
+world = World(dateStart, dateEnd)
 Nfull = len(CVD['date'])
 for i in range(Nfull):
-    if CVD['total_cases'][i] == 0 and CVD['total_deaths'][i] == 0:  # Salteamos fechas sin casos
-        continue
+    # cases = CVD['total_cases'][i]
+    # deaths = CVD['total_deaths'][i]
+    ncases = CVD['new_cases'][i]
+    ndeaths = CVD['new_deaths'][i]
     loc = CVD['location'][i]
-    date = datetime.datetime.strptime(CVD['date'][i], dateFormat)
-    countryPresent = False if CVDcountry.get(loc) == None else True
+    date = CVD['date'][i]
+    globDateIndex = world.date.index(date)
+    countryPresent = False if world.locCases.get(loc) == None else True
     if not countryPresent:
-        CVDcountry[loc] = Country(loc)
-    CVDcountry[loc].AddCases(date, CVD['total_cases'][i], CVD['total_deaths'][i])
+        world.locDeaths[loc] = [None if x < globDateIndex else 0 for x in range(world.N)]
+        world.locCases[loc] = [None if x < globDateIndex else 0 for x in range(world.N)]
+    world.locCases[loc][globDateIndex::] = [x + ncases for x in world.locCases[loc][globDateIndex::]]
+    world.locDeaths[loc][globDateIndex::] = [x + ndeaths for x in world.locDeaths[loc][globDateIndex::]]
 
-    
 ############################
 ##        EXAMPLES        ##
 ############################
-CVDcountry['Argentina'].PlotCases()
-CVDcountry['United States'].PlotCasesLog()
+plt.close('all')
+
+loc = 'Argentina'
+world.PlotCases(loc)
+world.PlotCasesLog(loc)
+world.PlotCases('United States')
+world.PlotCases('World')
