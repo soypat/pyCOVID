@@ -129,13 +129,14 @@ for i in range(Nfull):
 plt.close('all')
 
 loc = 'Argentina'
-southamerica = ['Argentina','Brazil','Venezuela','Peru','Chile','Ecuador','Colombia','Paraguay','Bolivia']
+southamerica = ['Argentina','Brazil','Uruguay','Venezuela','Peru','Chile','Ecuador','Colombia','Paraguay','Bolivia']
 world.PlotCompareCasesLog(50, southamerica)
-world.PlotCompareCases(100,['China','United States'])
+# world.PlotCompareCases(100,['China','United States'])
+
+# world.PlotCases(loc)
+# world.PlotCasesLog(loc)
+# plt.show()
+# world.PlotCases('United States')
+# world.PlotCasesLog('United States')
+# world.PlotCases('World')
 plt.show()
-world.PlotCases(loc)
-world.PlotCasesLog(loc)
-plt.show()
-world.PlotCases('United States')
-world.PlotCasesLog('United States')
-world.PlotCases('World')
