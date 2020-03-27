@@ -1,7 +1,7 @@
 # pyCOVID
 **Plot coronavirus cases/deaths over time by country.**
 
-[<img src="_assets/compare.png" width=60%>](process.py)
+[<img src="_assets/compare.png" width=80%>](process.py)
 
 ### Plot Logarithmic curves too
 `getData.py` gets cases online and saves them to a .csv file. 
