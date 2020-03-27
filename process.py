@@ -45,6 +45,7 @@ class World:
             plt.semilogy(range(len(cases)), cases, label=locs[i], marker=6, linestyle='dashed',linewidth=1, markersize=self.markersize)
             ax.legend()
         ax.set_ylabel('Confirmed cases (log)')
+        ax.set_xlabel('Days')
         ax.set_title('CVD19 - Superposition of confirmed cases on case #%s' % baseCases)
 
     def PlotCompareCases(self, baseCases, locs, **args):
@@ -63,6 +64,7 @@ class World:
             plt.plot(range(len(cases)), cases, label=locs[i],marker=6, linestyle='dashed',linewidth=1, markersize=self.markersize)
             ax.legend()
         ax.set_ylabel('Confirmed cases')
+        ax.set_xlabel('Days')
         ax.set_title('CVD19 - Superposition of confirmed cases on case #%s' % baseCases)
 
     def PlotCases(self, loc):
