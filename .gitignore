@@ -4,6 +4,9 @@
 #data/countries.geojson
 data/*
 .idea/*
+test.py
+plot.bat
+runall.bat
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
