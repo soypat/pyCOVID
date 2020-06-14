@@ -10,5 +10,10 @@
 ### Choropleth for total/new and rolling average cases
 [<img src="_assets/ex_choropleth.png" width=80%>](examples.py)
 
+### Requirements
+Requires geopandas dependency [GDAL](https://anaconda.org/conda-forge/gdal) (and by extension, [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install) to install it).
+
+
+
 ### Examples
 Find the examples  in [`examples.py`](examples.py)
